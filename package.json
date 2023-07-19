@@ -1,0 +1,20 @@
+{
+  "name": "Telegram Chat Bot",
+  "version": "1.0.0",
+  "description": "This project implements a Telegram chat bot that retrieves registration data for the Manhood Event and sends it to a specified chat group. The bot fetches the total number of registrations and the details of registered users from a specific URL and posts them in the Telegram group at a scheduled time.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "child_process": "^1.0.2",
+    "fs": "^0.0.1-security",
+    "node-schedule": "^2.1.1",
+    "node-telegram-bot-api": "^0.61.0",
+    "yaml": "^2.3.1"
+  }
+}

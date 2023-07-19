@@ -1,0 +1,24 @@
+name: Automated Notifier
+on:
+  schedule:
+    - cron: '0 17 * * *' # Runs at 5 PM UTC
+  workflow_dispatch:
+
+jobs:
+  automated-notifier:
+    runs-on: [self-hosted, linux, X64, build-node]
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - uses: actions/checkout@v3
+        with:
+          path: app
+
+      - name: Schudule notification 
+        working-directory: app
+        run: |
+          set -o xtrace
+          npm install
+          node app.js
