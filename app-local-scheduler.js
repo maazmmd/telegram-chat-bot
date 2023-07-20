@@ -6,7 +6,7 @@ const YAML = require('yaml');
 const { spawnSync } = require('child_process');
 
 // Path to the encrypted config file
-const configPath = '/path/to/telegram-chat-bot/config.yaml';
+const configPath = process.argv[2] + '/config.yaml';
 
 // Decrypt the config file using sops
 const sopsCommand = spawnSync('sops', ['--decrypt', configPath]);
@@ -38,10 +38,11 @@ const config = {
 
 // Telegram Bot setup
 const botToken = config_yaml.TELEGRAM_BOT_TOKEN;
-const bot = new TelegramBot(botToken, { polling: true });
+const bot = new TelegramBot(botToken);
 
-const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
-const groupIDsArray = groupIDs.split(',');
+const groupId = config_yaml.TEST_GROUP_TELEGRAM_CHAT_ID;
+// const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
+// const groupIDsArray = groupIDs.split(',');
 
 // Function to fetch all registered users
 const fetchRegisteredUsers = async () => {
@@ -62,8 +63,8 @@ let totalUsers = 0;
 
 // Schedule a daily job to post the total users at 5 PM
 const rule = new schedule.RecurrenceRule();
-rule.hour = 17; // 5 PM
-rule.minute = 0;
+rule.hour = 23; // 5 PM
+rule.minute = 30;
 schedule.scheduleJob(rule, async () => {
 
   registeredUsers = await fetchRegisteredUsers();
@@ -104,22 +105,22 @@ schedule.scheduleJob(rule, async () => {
   message += `\nArm Wrestling: ${armWrestlingCount} registrations\n`;
   message += `\nTotal Registrations: ${totalUsers}`;
 
-  groupIDsArray.forEach(groupId => {
+  // groupIDsArray.forEach(groupId => {
     bot.sendMessage(groupId, message);
-  });
+  // });
   
 
 });
 
 const rule2 = new schedule.RecurrenceRule();
-rule2.hour = 16; // 4:45 PM
-rule2.minute = 45;
+rule2.hour = 23; // 4:45 PM
+rule2.minute = 25;
 schedule.scheduleJob(rule2, async () => {
 
   // Send Zoom Invite
   let zoomMessage = `Change your Zoom message here\n`;
-  groupIDsArray.forEach(groupId => {
+  // groupIDsArray.forEach(groupId => {
     bot.sendMessage(groupId, zoomMessage);
-  });
+  // });
 
 });

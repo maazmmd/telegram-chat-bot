@@ -1,7 +1,8 @@
 name: Automated Notifier
 on:
   schedule:
-    - cron: '0 22 * * *' # Runs at 10 PM UTC (5 PM EST)
+    # - cron: '0 22 * * *' # Runs at 10 PM UTC (5 PM EST)
+    - cron: '17 23 * * *'
   workflow_dispatch:
 
 jobs:
@@ -36,4 +37,4 @@ jobs:
           set -o xtrace
           sudo npm install
           config_path=`pwd`
-          node app.js $config_path
+          node app-local-scheduler.js $config_path
