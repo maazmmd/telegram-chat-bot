@@ -15,8 +15,10 @@ jobs:
       - name: Install npm
         run: sudo apt-get install -y npm
 
-      - name: Install sops
-        uses: mozilla/sops-action@v3
+      - name: Sops Binary Installer
+        uses: mdgreenwald/mozilla-sops-action@v1.4.1
+        with:
+          version: 'latest'
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v3
