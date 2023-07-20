@@ -17,6 +17,8 @@ const config_yaml = YAML.parse(decryptedConfig);
 
 // Extract the necessary values from the config
 const httpUrl = config_yaml.http_url;
+const evt = config_yaml.EVT;
+const zoomMessage = config_yaml.ZM;
 
 // URL - payload, config
 const payload = {
@@ -63,8 +65,8 @@ let totalUsers = 0;
 
 // Schedule a daily job to post the total users at 5 PM
 const rule = new schedule.RecurrenceRule();
-rule.hour = 23; // 5 PM
-rule.minute = 30;
+rule.hour = 20; // 5 PM
+rule.minute = 10;
 schedule.scheduleJob(rule, async () => {
 
   registeredUsers = await fetchRegisteredUsers();
@@ -103,7 +105,7 @@ schedule.scheduleJob(rule, async () => {
     message += `${city}: ${cityCounts[city]} registrations\n`;
   }
   message += `\nArm Wrestling: ${armWrestlingCount} registrations\n`;
-  message += `\nTotal Registrations: ${totalUsers}`;
+  message += `\n${evt}Total Registrations: ${totalUsers}`;
 
   // groupIDsArray.forEach(groupId => {
     bot.sendMessage(groupId, message);
@@ -113,12 +115,8 @@ schedule.scheduleJob(rule, async () => {
 });
 
 const rule2 = new schedule.RecurrenceRule();
-rule2.hour = 23; // 4:45 PM
-rule2.minute = 25;
 schedule.scheduleJob(rule2, async () => {
 
-  // Send Zoom Invite
-  let zoomMessage = `Change your Zoom message here\n`;
   // groupIDsArray.forEach(groupId => {
     bot.sendMessage(groupId, zoomMessage);
   // });
