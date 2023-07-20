@@ -38,7 +38,7 @@ const config = {
 
 // Telegram Bot setup
 const botToken = config_yaml.TELEGRAM_BOT_TOKEN;
-const bot = new TelegramBot(botToken, { polling: true });
+const bot = new TelegramBot(botToken);
 
 const groupId = config_yaml.TEST_GROUP_TELEGRAM_CHAT_ID;
 // const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
@@ -60,7 +60,7 @@ const groupId = config_yaml.TEST_GROUP_TELEGRAM_CHAT_ID;
   const zoomMessage = config_yaml.ZM;
   const evt = config_yaml.EVT;
   // groupIDsArray.forEach(groupId => {
-  //   bot.sendMessage(groupId, zoomMessage);
+    bot.sendMessage(groupId, zoomMessage);
   // });
 
   let registeredUsers = [];
