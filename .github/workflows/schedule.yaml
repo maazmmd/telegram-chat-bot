@@ -1,16 +1,28 @@
 name: Automated Notifier
 on:
   schedule:
-    - cron: '0 17 * * *' # Runs at 5 PM UTC
+    - cron: '0 22 * * *' # Runs at 10 PM UTC (5 PM EST)
   workflow_dispatch:
 
 jobs:
   automated-notifier:
-    runs-on: [self-hosted, linux, X64, build-node]
+    runs-on: [ubuntu-latest]
     steps:
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '14.x'
+
+      - name: Install npm
+        run: sudo apt-get install -y npm
+
+      - name: Install sops
+        uses: mozilla/sops-action@v3
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - uses: actions/checkout@v3
         with:
@@ -20,5 +32,6 @@ jobs:
         working-directory: app
         run: |
           set -o xtrace
-          npm install
-          node app.js
+          sudo npm install
+          config_path=`pwd`
+          node app.js $config_path

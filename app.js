@@ -6,7 +6,7 @@ const YAML = require('yaml');
 const { spawnSync } = require('child_process');
 
 // Path to the encrypted config file
-const configPath = '/path/to/telegram-chat-bot/config.yaml';
+const configPath = process.argv[2] + '/config.yaml';
 
 // Decrypt the config file using sops
 const sopsCommand = spawnSync('sops', ['--decrypt', configPath]);
@@ -40,8 +40,9 @@ const config = {
 const botToken = config_yaml.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(botToken, { polling: true });
 
-const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
-const groupIDsArray = groupIDs.split(',');
+const groupId = config_yaml.TEST_GROUP_TELEGRAM_CHAT_ID;
+// const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
+// const groupIDsArray = groupIDs.split(',');
 
 (async () => {
   // Function to fetch all registered users
@@ -56,10 +57,11 @@ const groupIDsArray = groupIDs.split(',');
   };
 
   // Send Zoom Invite
-  let zoomMessage = `Change your Zoom message here\n`;
-  groupIDsArray.forEach(groupId => {
-    bot.sendMessage(groupId, zoomMessage);
-  });
+  const zoomMessage = config_yaml.ZM;
+  const evt = config_yaml.EVT;
+  // groupIDsArray.forEach(groupId => {
+  //   bot.sendMessage(groupId, zoomMessage);
+  // });
 
   let registeredUsers = [];
   const cityCounts = {};
@@ -103,10 +105,10 @@ const groupIDsArray = groupIDs.split(',');
     message += `${city}: ${cityCounts[city]} registrations\n`;
   }
   message += `\nArm Wrestling: ${armWrestlingCount} registrations\n`;
-  message += `\nTotal Registrations: ${totalUsers}`;
+  message += `\n${evt} Total Registrations: ${totalUsers}`;
 
-  groupIDsArray.forEach(groupId => {
+  // groupIDsArray.forEach(groupId => {
     bot.sendMessage(groupId, message);
-  });
+  // });
 
 })();
