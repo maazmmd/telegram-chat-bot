@@ -115,6 +115,8 @@ schedule.scheduleJob(rule, async () => {
 });
 
 const rule2 = new schedule.RecurrenceRule();
+rule2.hour = 20; // 4:45 PM
+rule2.minute = 05;
 schedule.scheduleJob(rule2, async () => {
 
   // groupIDsArray.forEach(groupId => {
