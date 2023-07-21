@@ -1,7 +1,7 @@
 name: Zoom Notifier
 on:
   schedule:
-    - cron: '20 18 * * *' # Runs 4:5 PM EST
+    - cron: '45 21 * * *' # Runs 4:5 PM EST
   workflow_dispatch:
 
 jobs:
@@ -30,12 +30,10 @@ jobs:
         with:
           path: app
 
-      - name: Print System Time
-        run: date
-      # - name: Schudule notification 
-      #   working-directory: app
-      #   run: |
-      #     set -o xtrace
-      #     sudo npm install
-      #     config_path=`pwd`
-      #     node zoom.js $config_path
+      - name: Schudule notification 
+        working-directory: app
+        run: |
+          set -o xtrace
+          sudo npm install
+          config_path=`pwd`
+          node zoom.js $config_path
