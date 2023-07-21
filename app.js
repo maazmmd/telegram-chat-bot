@@ -1,29 +1,19 @@
 const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
-const schedule = require('node-schedule');
-const fs = require('fs');
 const YAML = require('yaml');
 const { spawnSync } = require('child_process');
 
-// Path to the encrypted config file
 const configPath = process.argv[2] + '/config.yaml';
-
-// Decrypt the config file using sops
 const sopsCommand = spawnSync('sops', ['--decrypt', configPath]);
 const decryptedConfig = sopsCommand.stdout.toString();
-
-// Parse the decrypted YAML content
 const config_yaml = YAML.parse(decryptedConfig);
-
-// Extract the necessary values from the config
 const httpUrl = config_yaml.http_url;
 
-// URL - payload, config
 const payload = {
   "entries": {
     "range": {
       "startindex": 1,
-      "pagesize": 50
+      "pagesize": 200
     }
   }
 };
@@ -36,16 +26,14 @@ const config = {
   }
 };
 
-// Telegram Bot setup
 const botToken = config_yaml.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(botToken);
 
-const groupId = config_yaml.TEST_GROUP_TELEGRAM_CHAT_ID;
-// const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
-// const groupIDsArray = groupIDs.split(',');
+const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
+const groupIDsArray = groupIDs.split(',');
 
 (async () => {
-  // Function to fetch all registered users
+  
   const fetchRegisteredUsers = async () => {
     try {
       const response = await axios.post(httpUrl, payload, config);
@@ -55,14 +43,7 @@ const groupId = config_yaml.TEST_GROUP_TELEGRAM_CHAT_ID;
       return [];
     }
   };
-
-  // Send Zoom Invite
-  const zoomMessage = config_yaml.ZM;
-  const evt = config_yaml.EVT;
-  // groupIDsArray.forEach(groupId => {
-    bot.sendMessage(groupId, zoomMessage);
-  // });
-
+  
   let registeredUsers = [];
   const cityCounts = {};
   let emptyCityCount = 0;
@@ -105,10 +86,22 @@ const groupId = config_yaml.TEST_GROUP_TELEGRAM_CHAT_ID;
     message += `${city}: ${cityCounts[city]} registrations\n`;
   }
   message += `\nArm Wrestling: ${armWrestlingCount} registrations\n`;
-  message += `\n${evt} Total Registrations: ${totalUsers}`;
 
-  // groupIDsArray.forEach(groupId => {
+  const event = config_yaml.EVENT;
+  message += `\n${event} Total Registrations: ${totalUsers}`;
+
+  groupIDsArray.forEach(groupId => {
     bot.sendMessage(groupId, message);
-  // });
+  });
+
+  // Function to stop the program execution
+  const stopExecution = () => {
+
+    console.log('Stopping program execution...');
+    process.exit(0);
+  };
+
+  // Set a timeout to stop the program after 5 minutes (3 * 60 * 1000 milliseconds)
+  setTimeout(stopExecution, 3 * 60 * 1000);
 
 })();

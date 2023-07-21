@@ -1,7 +1,7 @@
-name: Automated Notifier
+name: Zoom Notifier
 on:
   schedule:
-    - cron: '0 17 * * *' # Runs 5 PM EST
+    - cron: '45 16 * * *' # Runs 4:5 PM EST
   workflow_dispatch:
 
 jobs:
@@ -36,4 +36,4 @@ jobs:
           set -o xtrace
           sudo npm install
           config_path=`pwd`
-          node app.js $config_path
+          node zoom.js $config_path
