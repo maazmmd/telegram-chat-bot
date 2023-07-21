@@ -66,7 +66,7 @@ let totalUsers = 0;
 // Schedule a daily job to post the total users at 5 PM
 const rule = new schedule.RecurrenceRule();
 rule.hour = 20; // 5 PM
-rule.minute = 10;
+rule.minute = 20;
 schedule.scheduleJob(rule, async () => {
 
   registeredUsers = await fetchRegisteredUsers();
@@ -116,7 +116,7 @@ schedule.scheduleJob(rule, async () => {
 
 const rule2 = new schedule.RecurrenceRule();
 rule2.hour = 20; // 4:45 PM
-rule2.minute = 05;
+rule2.minute = 15;
 schedule.scheduleJob(rule2, async () => {
 
   // groupIDsArray.forEach(groupId => {
