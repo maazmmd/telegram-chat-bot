@@ -30,10 +30,12 @@ jobs:
         with:
           path: app
 
-      - name: Schudule notification 
-        working-directory: app
-        run: |
-          set -o xtrace
-          sudo npm install
-          config_path=`pwd`
-          node zoom.js $config_path
+      - name: Print System Time
+        run: date
+      # - name: Schudule notification 
+      #   working-directory: app
+      #   run: |
+      #     set -o xtrace
+      #     sudo npm install
+      #     config_path=`pwd`
+      #     node zoom.js $config_path
