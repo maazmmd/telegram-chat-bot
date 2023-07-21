@@ -29,6 +29,7 @@ const config = {
 const botToken = config_yaml.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(botToken);
 
+const groupId = config_yaml.TEST_GROUP_CHAT_ID;
 const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
 const groupIDsArray = groupIDs.split(',');
 
@@ -90,9 +91,9 @@ const groupIDsArray = groupIDs.split(',');
   const event = config_yaml.EVENT;
   message += `\n${event} Total Registrations: ${totalUsers}`;
 
-  groupIDsArray.forEach(groupId => {
+  // groupIDsArray.forEach(groupId => {
     bot.sendMessage(groupId, message);
-  });
+  // });
 
   // Function to stop the program execution
   const stopExecution = () => {

@@ -1,7 +1,7 @@
 name: Automated Notifier
 on:
   schedule:
-    - cron: '0 17 * * *' # Runs 5 PM EST
+    - cron: '18 18 * * *' # Runs 5 PM EST
   workflow_dispatch:
 
 jobs:
