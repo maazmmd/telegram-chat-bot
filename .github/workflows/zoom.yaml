@@ -1,7 +1,7 @@
 name: Zoom Notifier
 on:
   schedule:
-    - cron: '45 21 * * *' # Runs 4:5 PM EST
+    - cron: '45 20 * * *' # Runs 4:55 PM EST
   workflow_dispatch:
 
 jobs:
