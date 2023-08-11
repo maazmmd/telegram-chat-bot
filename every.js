@@ -29,7 +29,7 @@ const config = {
 const botToken = config_yaml.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(botToken);
 
-const groupIDs = config_yaml.TELEGRAM_CHAT_ID;
+const groupIDs = config_yaml.TELEGRAM_EVERY15MIN_ID;
 const groupIDsArray = groupIDs.split(',');
 
 (async () => {
@@ -53,7 +53,7 @@ const groupIDsArray = groupIDs.split(',');
   registeredUsers = await fetchRegisteredUsers();
   totalUsers = registeredUsers.length;
   
-  let message = 'Citywise Registrations:\n';
+//   let message = 'Citywise Registrations:\n';
   registeredUsers.forEach(user => {
     const city = user.Address.Address_City || 'Unknown';
     let ticketsPaidByuser = user.SubForm1[0].Number1;
@@ -82,10 +82,10 @@ const groupIDsArray = groupIDs.split(',');
     }
   });
 
-  for (const city in cityCounts) {
-    message += `${city}: ${cityCounts[city]} registrations\n`;
-  }
-  message += `\nArm Wrestling: ${armWrestlingCount} registrations\n`;
+//   for (const city in cityCounts) {
+//     message += `${city}: ${cityCounts[city]} registrations\n`;
+//   }
+  let message = `\nArm Wrestling: ${armWrestlingCount} registrations\n`;
 
   const event = config_yaml.EVENT;
   message += `\n${event} Total Registrations: ${totalUsers}`;
