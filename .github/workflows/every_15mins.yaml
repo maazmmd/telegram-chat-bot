@@ -1,7 +1,5 @@
 name: Automated Notifier
 on:
-  schedule:
-    - cron: '0 * * * *' # Runs hour
   workflow_dispatch:
 
 jobs:
