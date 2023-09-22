@@ -1,5 +1,7 @@
 name: Automated Notifier
 on:
+  # schedule:
+  #   - cron: '0 0 */3 * *' # Runs 3 days
   workflow_dispatch:
 
 jobs:
@@ -34,4 +36,4 @@ jobs:
           set -o xtrace
           sudo npm install
           config_path=`pwd`
-          node app.js $config_path
+          nohup node scheduler-msg.js $config_path > output.log &
